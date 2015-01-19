@@ -5,10 +5,19 @@ angular.module('todoApp', [])
             {text:'build an angular app', done:false}
         ];
 
-        $http.get('http://localhost:1337/todos').then(function(result) {
-            if (result.data) {
-                $scope.todos = result.data;
-            }
+        function myHttpGet(url) {
+            return $http.get(url).then(function(result) {
+                if (result.data) {
+                    return result.data;
+                }
+                throw 'data missing';
+            });
+        }
+
+        myHttpGet('http://localhost:1337/todos').then(function(data) {
+            $scope.todos = result.data;
+        }, function(err) {
+            alert('sometihng happend...');
         });
 
         $scope.addTodo = function() {
